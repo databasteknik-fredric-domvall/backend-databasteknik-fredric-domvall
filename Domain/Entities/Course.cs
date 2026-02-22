@@ -9,6 +9,9 @@ public sealed class Course
 
     private Course() { }
 
+    private readonly List<CourseOccasion> _occasions = [];
+    public IReadOnlyCollection<CourseOccasion> Occasions => _occasions;
+
     public Course(string title, string description)
     {
         UpdateDetails(title, description);
