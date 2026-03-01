@@ -11,6 +11,9 @@ public sealed class CourseOccasion
     public DateOnly EndDate { get; private set; }
     public int Capacity { get; private set; }
 
+    private readonly List<Enrollment> _enrollments = [];
+    public IReadOnlyCollection<Enrollment> Enrollments => _enrollments;
+
     private CourseOccasion() { }
 
     public CourseOccasion(Guid courseId, DateOnly startDate, DateOnly endDate, int capacity)
