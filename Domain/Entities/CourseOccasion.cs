@@ -32,4 +32,17 @@ public sealed class CourseOccasion
         EndDate = endDate;
         Capacity = capacity;
     }
+
+    public void Update(DateOnly startDate, DateOnly endDate, int capacity)
+    {
+        if (capacity <= 0)
+            throw new ArgumentException("Capacity must be greater than zero.");
+
+        if (endDate < startDate)
+            throw new ArgumentException("EndDate must be the same or after StartDate.");
+
+        StartDate = startDate;
+        EndDate = endDate;
+        Capacity = capacity;
+    }
 }
