@@ -8,6 +8,9 @@ public sealed class Student
     public string LastName { get; private set; } = string.Empty;
     public string Email { get; private set; } = string.Empty;
 
+    private readonly List<Enrollment> _enrollments = [];
+    public IReadOnlyCollection<Enrollment> Enrollments => _enrollments;
+
     private Student() { }
 
     public Student(string firstName, string lastName, string email)
