@@ -8,6 +8,9 @@ public sealed class Teacher
     public string LastName { get; private set; } = string.Empty;
     public string Email { get; private set; } = string.Empty;
 
+    private readonly List<CourseOccasion> _courseOccasions = [];
+    public IReadOnlyCollection<CourseOccasion> CourseOccasions => _courseOccasions;
+
     private Teacher() { }
 
     public Teacher(string firstName, string lastName, string email)

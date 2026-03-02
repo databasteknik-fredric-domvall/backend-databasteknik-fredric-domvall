@@ -42,6 +42,11 @@ public sealed class CourseOnlineDbContext(DbContextOptions<CourseOnlineDbContext
                 v => v.ToDateTime(TimeOnly.MinValue),
                 v => DateOnly.FromDateTime(v));
 
+            entity.HasOne(x => x.Teacher)
+                .WithMany(x => x.CourseOccasions)
+                .HasForeignKey(x => x.TeacherId)
+                .OnDelete(DeleteBehavior.SetNull);
+
             entity.Property(x => x.Capacity).IsRequired();
         });
 

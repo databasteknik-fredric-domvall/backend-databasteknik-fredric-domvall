@@ -271,6 +271,7 @@ app.MapGet("/api/courseoccasions", async (CourseOnlineDbContext dbContext, Cance
         .Select(x => new CourseOccasionResponse(
             x.Id,
             x.CourseId,
+            x.TeacherId,
             x.StartDate.ToString("yyyy-MM-dd"),
             x.EndDate.ToString("yyyy-MM-dd"),
             x.Capacity))
@@ -287,6 +288,7 @@ app.MapGet("/api/courseoccasions/{id:guid}", async (Guid id, CourseOnlineDbConte
         .Select(x => new CourseOccasionResponse(
             x.Id,
             x.CourseId,
+            x.TeacherId,
             x.StartDate.ToString("yyyy-MM-dd"),
             x.EndDate.ToString("yyyy-MM-dd"),
             x.Capacity))
@@ -320,7 +322,7 @@ app.MapPost("/api/courseoccasions", async (CreateCourseOccasionRequest request, 
         return Results.BadRequest("Dates must be formatted as yyyy-MM-dd.");
     }
 
-    var occasion = new CourseOccasion(request.CourseId, startDate, endDate, request.Capacity);
+    var occasion = new CourseOccasion(request.CourseId, request.TeacherId, startDate, endDate, request.Capacity);
 
     dbContext.CourseOccasions.Add(occasion);
     await dbContext.SaveChangesAsync(cancellationToken);
@@ -328,6 +330,7 @@ app.MapPost("/api/courseoccasions", async (CreateCourseOccasionRequest request, 
     var response = new CourseOccasionResponse(
         occasion.Id,
         occasion.CourseId,
+        occasion.TeacherId,
         occasion.StartDate.ToString("yyyy-MM-dd"),
         occasion.EndDate.ToString("yyyy-MM-dd"),
         occasion.Capacity);
@@ -357,13 +360,14 @@ app.MapPut("/api/courseoccasions/{id:guid}", async (Guid id, UpdateCourseOccasio
     if (occasion is null)
         return Results.NotFound();
 
-    occasion.Update(startDate, endDate, request.Capacity);
+    occasion.Update(request.TeacherId, startDate, endDate, request.Capacity);
 
     await dbContext.SaveChangesAsync(cancellationToken);
 
     var response = new CourseOccasionResponse(
         occasion.Id,
         occasion.CourseId,
+        occasion.TeacherId,
         occasion.StartDate.ToString("yyyy-MM-dd"),
         occasion.EndDate.ToString("yyyy-MM-dd"),
         occasion.Capacity);
